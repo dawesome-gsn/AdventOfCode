@@ -11,8 +11,14 @@ class Day2:
     def Slack(self, length, width, height):
         return min(length * width, width * height, length * height)
 
+    def Volume(self, l, w, h):
+        return l*w*h
+
     def WrappingNeeded(self, length, width, height):
         return self.Area(length, width, height) + self.Slack(length, width, height)
+
+    def RibbonNeeded(self, length, width, height):
+        return self.Volume(length, width, height) + (length+width+height - max(length, width, height)) * 2
 
 
 class TestDay2(unittest.TestCase):
@@ -31,15 +37,23 @@ class TestDay2(unittest.TestCase):
         self.assertEqual(d.WrappingNeeded(2,3,4), 58)
         self.assertEqual(d.WrappingNeeded(1,1,10), 43)
 
+    def testRibbon(self):
+        d = Day2()
+        self.assertEqual(d.RibbonNeeded(2,3,4), 34)
+        self.assertEqual(d.RibbonNeeded(1,1,10), 14)
+
 if __name__ == '__main__':
     d = Day2()
 
-    total = 0
+    totalPaper = 0
+    totalRibbon = 0
 
     f = open('Day2Input.txt')
     for line in f:
         l,w,h = line.split('x')
         l,w,h = int(l), int(w), int(h)
-        total += d.WrappingNeeded(l,w,h)
+        totalPaper += d.WrappingNeeded(l,w,h)
+        totalRibbon += d.RibbonNeeded(l,w,h)
 
-    print total
+    print totalPaper
+    print totalRibbon
