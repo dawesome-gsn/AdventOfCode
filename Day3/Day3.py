@@ -16,11 +16,21 @@ class Day3:
         self.positions = set()
         self.positions.add(self.currentPos)
 
-    def Fly(self, str, useRoboSanta):
+    def Fly(self, directions, useRoboSanta):
+        roboTurn = False
+        santa = Position()
+        roboSanta = Position()
+
         coord_list.clear()
         coord_list.add((0,0))
 
-        for char in str:
+        print "useRoboSanta = " + str(useRoboSanta)
+
+        for char in directions:
+            self.currentPos = santa
+            if useRoboSanta and roboTurn:
+                self.currentPos = roboSanta
+
             if char == '<':
                 self.currentPos.x += -1
             elif char == '>':
@@ -31,8 +41,20 @@ class Day3:
                 self.currentPos.y += -1
             coord_list.add((self.currentPos.x, self.currentPos.y))
 
-    def NumHouses(self, str, useRoboSanta=False):
-        self.Fly(str, useRoboSanta)
+            if useRoboSanta and roboTurn:
+                roboSanta.x = self.currentPos.x
+                roboSanta.y = self.currentPos.y
+            else:
+                santa.x = self.currentPos.x
+                santa.y = self.currentPos.y
+
+            print "Santa at " + str(santa.x) + ", " + str(santa.y)
+            print "RoboS at " + str(roboSanta.x) + ", " + str(roboSanta.y)
+
+            roboTurn = not roboTurn
+
+    def NumHouses(self, directions, useRoboSanta=False):
+        self.Fly(directions, useRoboSanta)
         return len(coord_list)
 
 
@@ -44,6 +66,12 @@ class TestDay3(unittest.TestCase):
         self.assertEqual(d.NumHouses('^>v<'), 4)
         d = Day3()
         self.assertEqual(d.NumHouses('^v^v^v^v^v'), 2)
+        d = Day3()
+        self.assertEqual(d.NumHouses('^v', True), 3)
+        d = Day3()
+        self.assertEqual(d.NumHouses('^>v<', True), 3)
+        d = Day3()
+        self.assertEqual(d.NumHouses('^v^v^v^v^v', True), 11)
 
 if __name__ == '__main__':
     #unittest.main()
@@ -53,4 +81,5 @@ if __name__ == '__main__':
 
     with open(file_path) as f:
         s = f.read()
-        print d.NumHouses(s)
+        print "Santa houses = " + str(d.NumHouses(s, False))
+        print "With RoboSanta = " + str(d.NumHouses(s, True))
