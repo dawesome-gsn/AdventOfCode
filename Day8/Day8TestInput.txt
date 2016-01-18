@@ -2,7 +2,3 @@
 "abc"
 "aaa\"aaa"
 "\x27"
-"daz\\zyyxddpwk"
-"\xa8br\x8bjr\""
-"lhyjky\m\"pvnm\xmynpxnlhndmahjl"
-"q\"\"lfdentjgd\\"
