@@ -33,6 +33,7 @@ with open("Test.txt") as f:
 
     numCombinations(containers, 25)
 
+containers = list()
 with open("Input.txt") as f:
     for line in f.readlines():
         containers.append(int(line.strip()))
@@ -53,5 +54,5 @@ with open("Input.txt") as f:
 
     combinations = [c for i in xrange(1, len(containers)+1) for c in itertools.combinations(containers, i) if sum(c) == 150]
     print len(combinations)  # part1
-
+    print len([c for c in combinations if len(c) == len(min(combinations, key=lambda x:len(x)))])
     numCombinations(containers, 150)
